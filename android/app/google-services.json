@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "346673768724",
+    "project_id": "r0cktheman",
+    "storage_bucket": "r0cktheman.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346673768724:android:1ecbedfd5acf4c7cc6fa01",
+        "android_client_info": {
+          "package_name": "com.example.fire_base"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346673768724-ouvcasa0na3m2kbfjpvi3mlul8uepcf3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTFQHWElMo8nNEfCJNEsFdeNS7TFeYQt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346673768724-ouvcasa0na3m2kbfjpvi3mlul8uepcf3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
