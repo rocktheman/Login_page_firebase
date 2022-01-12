@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:fire_base/home_screen.dart';
 import 'package:fire_base/reuseable_widget.dart';
 import 'package:fire_base/signup_screen.dart';
@@ -15,22 +17,29 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
+  String err = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sign In')),
+      appBar: AppBar(
+          elevation: 0,
+          title: const Text(
+            "Sign In",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          )),
       body: Container(
         decoration: new BoxDecoration(
           borderRadius: new BorderRadius.circular(16.0),
-          color: Colors.cyan[400],
+          color: Colors.blueGrey[600],
         ),
-        child: Column(
-          children: <Widget>[
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 350),
+          child: Column(children: <Widget>[
             SizedBox(
               height: 30,
             ),
-            reuseableTextField("Enter UserName", Icons.person_outline, false,
+            reuseableTextField("Enter Email ID", Icons.person_outline, false,
                 _emailTextController),
             SizedBox(
               height: 20,
@@ -41,19 +50,47 @@ class _SignInScreenState extends State<SignInScreen> {
               height: 20,
             ),
             signInSignupButton(context, true, () {
-              FirebaseAuth.instance
-                  .signInWithEmailAndPassword(
-                      email: _emailTextController.text,
-                      password: _passwordTextController.text)
-                  .then((value) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
-              }).onError((error, stackTrace) {
-                print("Error${error.toString()}");
-              });
+              err = "";
+              if (_emailTextController.text.length > 10 &&
+                  _emailTextController.text.contains('@') &&
+                  _passwordTextController.text.length >= 6) {
+                FirebaseAuth.instance
+                    .signInWithEmailAndPassword(
+                        email: _emailTextController.text,
+                        password: _passwordTextController.text)
+                    .then((value) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                }).onError((error, stackTrace) {
+                  print("Error${error.toString()}");
+
+                  setState(() {
+                    err = error.toString();
+                  });
+                });
+              } else {
+                String err1 = '';
+                if (_emailTextController.text.length <= 10 ||
+                    _emailTextController.text.contains('@') == false) {
+                  err1 = err1 +
+                      "\n Email must have more than 10 characters & must have @ symbol";
+                }
+                if (_passwordTextController.text.length < 6) {
+                  err1 = err1 + "\n Password must have at least 6 characters";
+                }
+                setState(() {
+                  err = err1;
+                });
+              }
             }),
-            signUpOption()
-          ],
+            signUpOption(),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                err,
+                style: const TextStyle(color: Colors.red),
+              )
+            ])
+          ]),
         ),
       ),
     );
